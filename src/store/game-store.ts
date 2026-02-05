@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Card, GameMode, GridSize } from "./types";
+import type { Card, GameMode, GridSize } from "../types/game-types";
 
 const EMOJIS = ['🎮', '🎯', '🎨', '🎭', '🎪', '🎸', '🎺', '🎻', '🎲', '🎰', '🏀', '⚽', '🏈', '⚾', '🎾', '🏐', '🎱', '🏓'];
 const WORDS = ['APPLE', 'BRAVE', 'CLOUD', 'DANCE', 'EAGLE', 'FLAME', 'GRAPE', 'HEART', 'INDIA', 'JEWEL', 'KNIGHT', 'LEMON', 'MAGIC', 'NOBLE', 'OCEAN', 'PEACE', 'QUEST', 'RIVER'];

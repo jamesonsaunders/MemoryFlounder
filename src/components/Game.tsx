@@ -1,5 +1,5 @@
-import { useAppStore } from "./store";
-import icon from "./assets/images/icon.svg";
+import { useAppStore } from "../store/game-store";
+import icon from "../assets/images/icon.svg";
 import { Footer } from "./Footer";
 
 export function Game() {

@@ -112,7 +112,8 @@ export const useAppStore = create<State>((set, get) => ({
       set({ moves: get().moves + 1 });
       
       if (firstCard && secondCard && firstCard.content === secondCard.content) {
-        // ({ matchFeedback: 'correct' });
+        // Match found - clear immediately and allow next selection
+        set({ matchFeedback: 'correct' });
         setTimeout(() => {
           set({
             cards: get().cards.map(c => 
@@ -124,10 +125,10 @@ export const useAppStore = create<State>((set, get) => ({
             matches: matches + 1,
             matchFeedback: null
           });
-        }, 500);
+        }, 300);
       } else {
-        // No match
-        set({ matchFeedback: 'incorrect' });
+        // No match - clear flippedCards immediately but keep visual feedback
+        set({ matchFeedback: 'incorrect', flippedCards: [] });
         setTimeout(() => {
           set({
             cards: get().cards.map(c => 
@@ -135,10 +136,9 @@ export const useAppStore = create<State>((set, get) => ({
                 ? { ...c, isFlipped: false } 
                 : c
             ),
-            flippedCards: [],
             matchFeedback: null
           });
-        }, 1000);
+        }, 600);
       }
     }
   },

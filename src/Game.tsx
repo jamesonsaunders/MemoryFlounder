@@ -1,5 +1,6 @@
 import { useAppStore } from "./store";
 import icon from "./assets/images/icon.svg";
+import { Footer } from "./Footer";
 
 export function Game() {
   const { cards, flipCard, moves, matches, gridSize, gameMode, resetGame, backToMenu, flippedCards, matchFeedback } = useAppStore();
@@ -164,6 +165,8 @@ export function Game() {
           </div>
         ))}
       </div>
+
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import { useAppStore } from "./store";
-import type { GameMode, GridSize } from "./types";
 import icon from "./assets/images/icon.svg";
+import { Footer } from "./Footer";
+import { useAppStore } from "./store";
 
 export function Menu() {
   const { gameMode, gridSize, setGameMode, setGridSize, startGame } = useAppStore();
@@ -147,6 +147,8 @@ export function Menu() {
       >
         Start Game
       </button>
+
+      <Footer />
     </div>
   );
 }

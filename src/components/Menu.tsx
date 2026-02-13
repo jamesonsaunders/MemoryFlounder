@@ -13,143 +13,316 @@ export function Menu() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      minHeight: '100vh',
-      padding: 'clamp(10px, 5vw, 20px)',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem, 2vw, 1rem)', marginBottom: 'clamp(1rem, 4vw, 2rem)', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <img src={icon} alt="MemoryFlounder" style={{ width: 'clamp(40px, 10vw, 60px)', height: 'clamp(40px, 10vw, 60px)' }} />
-        <h1 style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)', margin: 0, textAlign: 'center' }}>MemoryFlounder</h1>
-      </div>
-      
-      <div style={{ marginBottom: 'clamp(1rem, 4vw, 2rem)', width: '100%', maxWidth: '400px' }}>
-        <h2 style={{ marginBottom: 'clamp(0.5rem, 2vw, 1rem)', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>Choose Game Mode</h2>
-        <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
-          <button
-            onClick={() => setGameMode('emoji')}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gameMode === 'emoji' ? '3px solid #4CAF50' : '2px solid #ddd',
-              background: gameMode === 'emoji' ? '#e8f5e9' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            🎯 Emoji Mode
-          </button>
-          <button
-            onClick={() => setGameMode('words')}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gameMode === 'words' ? '3px solid #4CAF50' : '2px solid #ddd',
-              background: gameMode === 'words' ? '#e8f5e9' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            📝 Word Mode
-          </button>
-          <button
-            onClick={() => setGameMode('letters')}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gameMode === 'letters' ? '3px solid #4CAF50' : '2px solid #ddd',
-              background: gameMode === 'letters' ? '#e8f5e9' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            🔤 Letter Mode
-          </button>
+    <div className="menu-root">
+      <style>
+        {`
+          :root {
+            color-scheme: light dark;
+          }
+
+          .menu-root {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(16px, 4vw, 32px);
+            font-family: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top left, rgba(95, 99, 255, 0.18), transparent 45%),
+              radial-gradient(circle at bottom right, rgba(0, 207, 255, 0.18), transparent 45%),
+              linear-gradient(135deg, #0b1026 0%, #101a34 45%, #141d3a 100%);
+            color: #f4f6ff;
+            overflow: hidden;
+          }
+
+          .menu-root * {
+            box-sizing: border-box;
+          }
+
+          .bg-orb {
+            position: absolute;
+            width: clamp(160px, 30vw, 300px);
+            height: clamp(160px, 30vw, 300px);
+            border-radius: 999px;
+            filter: blur(30px);
+            opacity: 0.5;
+            animation: float 10s ease-in-out infinite;
+          }
+
+          .bg-orb.orb-1 {
+            top: -8%;
+            left: -6%;
+            background: radial-gradient(circle, rgba(255, 122, 122, 0.8), transparent 70%);
+          }
+
+          .bg-orb.orb-2 {
+            bottom: -10%;
+            right: -6%;
+            background: radial-gradient(circle, rgba(98, 255, 205, 0.8), transparent 70%);
+            animation-delay: -3s;
+          }
+
+          .bg-orb.orb-3 {
+            top: 20%;
+            right: 10%;
+            width: clamp(140px, 22vw, 220px);
+            height: clamp(140px, 22vw, 220px);
+            background: radial-gradient(circle, rgba(146, 111, 255, 0.9), transparent 70%);
+            animation-delay: -6s;
+          }
+
+          .menu-content {
+            position: relative;
+            z-index: 1;
+            width: min(720px, 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(16px, 3vw, 28px);
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: clamp(16px, 3vw, 28px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+            box-shadow: 0 30px 80px rgba(6, 12, 34, 0.65), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(18px);
+          }
+
+          .menu-header {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.6rem, 2vw, 1.1rem);
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+          }
+
+          .menu-logo {
+            width: clamp(46px, 10vw, 70px);
+            height: clamp(46px, 10vw, 70px);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+          }
+
+          .menu-title {
+            margin: 0;
+            font-size: clamp(1.9rem, 6vw, 3.4rem);
+            letter-spacing: -0.02em;
+            background: linear-gradient(120deg, #ffffff 0%, #8de1ff 45%, #ffe2a6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 10px 28px rgba(49, 196, 255, 0.3);
+          }
+
+          .menu-subtitle {
+            margin: 0;
+            font-size: clamp(0.95rem, 2.6vw, 1.1rem);
+            color: rgba(245, 247, 255, 0.75);
+          }
+
+          .menu-sections {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: clamp(16px, 3vw, 24px);
+          }
+
+          .menu-section {
+            background: rgba(12, 20, 40, 0.55);
+            border-radius: 18px;
+            padding: clamp(14px, 3vw, 22px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+          }
+
+          .menu-section h2 {
+            margin: 0 0 12px;
+            font-size: clamp(1.1rem, 3.4vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.9);
+          }
+
+          .menu-button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .menu-button {
+            position: relative;
+            padding: clamp(12px, 3vw, 16px) clamp(14px, 4vw, 18px);
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(9, 14, 30, 0.7);
+            color: #f5f7ff;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease, background 0.2s ease;
+            touch-action: manipulation;
+          }
+
+          .menu-button span {
+            font-weight: 600;
+          }
+
+          .menu-button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+          }
+
+          .menu-button.is-selected {
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 16px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(120deg, rgba(105, 175, 255, 0.3), rgba(142, 110, 255, 0.28));
+          }
+
+          .menu-badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+
+          .start-button {
+            position: relative;
+            padding: clamp(16px, 4vw, 20px) clamp(32px, 8vw, 44px);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: 700;
+            border-radius: 16px;
+            border: none;
+            color: #081221;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            background: linear-gradient(120deg, #62ffcd 0%, #8de1ff 50%, #ffe2a6 100%);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+          }
+
+          .start-button:disabled {
+            cursor: not-allowed;
+            filter: grayscale(0.8) brightness(0.7);
+            box-shadow: none;
+          }
+
+          .start-button:not(:disabled):hover {
+            transform: translateY(-2px) scale(1.02);
+          }
+
+          .start-button::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+          }
+
+          .start-button:not(:disabled):hover::after {
+            opacity: 1;
+            animation: shimmer 1.4s ease;
+          }
+
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(18px); }
+          }
+
+          @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+          }
+        `}
+      </style>
+
+      <div className="bg-orb orb-1" />
+      <div className="bg-orb orb-2" />
+      <div className="bg-orb orb-3" />
+
+      <div className="menu-content">
+        <div className="menu-header">
+          <img src={icon} alt="MemoryFlounder" className="menu-logo" />
+          <div>
+            <h1 className="menu-title">MemoryFlounder</h1>
+            <p className="menu-subtitle">Flip. Match. Dominate the deep.</p>
+          </div>
         </div>
-      </div>
 
-      <div style={{ marginBottom: 'clamp(1rem, 4vw, 2rem)', width: '100%', maxWidth: '400px' }}>
-        <h2 style={{ marginBottom: 'clamp(0.5rem, 2vw, 1rem)', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>Choose Grid Size</h2>
-        <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
-          <button
-            onClick={() => setGridSize(4)}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gridSize === 4 ? '3px solid #2196F3' : '2px solid #ddd',
-              background: gridSize === 4 ? '#e3f2fd' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            2x2 (Easy)
-          </button>
-          <button
-            onClick={() => setGridSize(16)}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gridSize === 16 ? '3px solid #2196F3' : '2px solid #ddd',
-              background: gridSize === 16 ? '#e3f2fd' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            4x4 (Medium)
-          </button>
-          <button
-            onClick={() => setGridSize(36)}
-            style={{
-              padding: 'clamp(10px, 3vw, 15px)',
-              fontSize: 'clamp(1rem, 3vw, 1.2rem)',
-              borderRadius: '8px',
-              border: gridSize === 36 ? '3px solid #2196F3' : '2px solid #ddd',
-              background: gridSize === 36 ? '#e3f2fd' : 'white',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              touchAction: 'manipulation'
-            }}
-          >
-            6x6 (Hard)
-          </button>
+        <div className="menu-sections">
+          <section className="menu-section">
+            <h2>Choose Game Mode</h2>
+            <div className="menu-button-group">
+              <button
+                onClick={() => setGameMode('emoji')}
+                className={`menu-button ${gameMode === 'emoji' ? 'is-selected' : ''}`}
+                aria-pressed={gameMode === 'emoji'}
+              >
+                <span>🎯 Emoji Mode</span>
+                {gameMode === 'emoji' && <span className="menu-badge">Selected</span>}
+              </button>
+              <button
+                onClick={() => setGameMode('words')}
+                className={`menu-button ${gameMode === 'words' ? 'is-selected' : ''}`}
+                aria-pressed={gameMode === 'words'}
+              >
+                <span>📝 Word Mode</span>
+                {gameMode === 'words' && <span className="menu-badge">Selected</span>}
+              </button>
+              <button
+                onClick={() => setGameMode('letters')}
+                className={`menu-button ${gameMode === 'letters' ? 'is-selected' : ''}`}
+                aria-pressed={gameMode === 'letters'}
+              >
+                <span>🔤 Letter Mode</span>
+                {gameMode === 'letters' && <span className="menu-badge">Selected</span>}
+              </button>
+            </div>
+          </section>
+
+          <section className="menu-section">
+            <h2>Choose Grid Size</h2>
+            <div className="menu-button-group">
+              <button
+                onClick={() => setGridSize(4)}
+                className={`menu-button ${gridSize === 4 ? 'is-selected' : ''}`}
+                aria-pressed={gridSize === 4}
+              >
+                <span>2x2 (Easy)</span>
+                {gridSize === 4 && <span className="menu-badge">Selected</span>}
+              </button>
+              <button
+                onClick={() => setGridSize(16)}
+                className={`menu-button ${gridSize === 16 ? 'is-selected' : ''}`}
+                aria-pressed={gridSize === 16}
+              >
+                <span>4x4 (Medium)</span>
+                {gridSize === 16 && <span className="menu-badge">Selected</span>}
+              </button>
+              <button
+                onClick={() => setGridSize(36)}
+                className={`menu-button ${gridSize === 36 ? 'is-selected' : ''}`}
+                aria-pressed={gridSize === 36}
+              >
+                <span>6x6 (Hard)</span>
+                {gridSize === 36 && <span className="menu-badge">Selected</span>}
+              </button>
+            </div>
+          </section>
         </div>
+
+        <button
+          onClick={handleStartGame}
+          disabled={!gameMode || !gridSize}
+          className="start-button"
+        >
+          Start Game
+        </button>
+
+        <Footer />
       </div>
-
-      <button
-        onClick={handleStartGame}
-        disabled={!gameMode || !gridSize}
-        style={{
-          padding: 'clamp(15px, 4vw, 20px) clamp(30px, 8vw, 40px)',
-          fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
-          borderRadius: '8px',
-          border: 'none',
-          background: gameMode && gridSize ? '#4CAF50' : '#ccc',
-          color: 'white',
-          cursor: gameMode && gridSize ? 'pointer' : 'not-allowed',
-          fontWeight: 'bold',
-          transition: 'all 0.2s',
-          opacity: gameMode && gridSize ? 1 : 0.6,
-          touchAction: 'manipulation'
-        }}
-      >
-        Start Game
-      </button>
-
-      <Footer />
     </div>
   );
 }
